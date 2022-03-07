@@ -1,0 +1,76 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within #the notebook, the results appear beneath the code. 
+
+#Try executing this chunk by clicking the *Run* button within the chunk or by placing your #cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+# This code is run one time to install packages and obtain the data from socviz
+
+```{r}
+install.packages("plotly")
+install.packages("ggplot2")
+install.packages(socviz)
+```
+
+
+```{r}
+# load libraries
+library(ggplot2)
+
+# load the data
+library(gapminder)
+gapminder
+```
+
+
+
+```{r}
+# read data and define x, y variables
+p <- ggplot2::ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp))
+
+# build scatterplot
+p + geom_point()
+
+
+```
+
+```{r}
+# adds standard error and line to scatterplot
+```
+
+
+```{r}
+p + geom_smooth()
+```
+
+
+From the original definition of the data to plot of gapminder, and the x-y variables of gdpPercap and lifeExp, respectively, a scatterplot is created with standard error and line using a generalized additive model (gam).0
+
+```{r}
+p + geom_point() + geom_smooth(method="gam")
+```
+
+```{r}
+p <- ggplot(data=gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+p + 
+  geom_point() + geom_smooth(method="lm")
+```
+The original plot using a linear model as the method and the x-axis is log base 10 scaled.
+
+```{r}
+p + geom_point() + geom_smooth(method="lm") + scale_x_log10()
+```
+Nicer tick marks and the x-axis scale can be labelled in dollars. The scales library can be loaded with "library(scales)" or within the scale_x_log10() functions with the "scales::dollar".
+```{r}
+p + geom_point() + geom_smooth(method="gam") + scale_x_log10(labels = scales::dollar)
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
